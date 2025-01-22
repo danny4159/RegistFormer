@@ -1,5 +1,5 @@
 # RegistFormer 
-### Code will be uploaded soon. Please refer to this repository (https://github.com/danny4159/RegistFormer_develop)
+### Code will be uploaded soon. Please refer to the [GitHub repository] (https://github.com/danny4159/RbG_framework)
 
 
 
