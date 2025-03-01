@@ -1,6 +1,8 @@
-# RegistFormer
+# RegistFormer 
+### Code will be uploaded soon. Please refer to the [GitHub repository] (https://github.com/danny4159/RbG_framework)
 
-## This code is being refactored and developed.
+
+
 
 ## 1. Description
 
