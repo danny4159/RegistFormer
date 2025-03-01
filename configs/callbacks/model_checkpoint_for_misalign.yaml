@@ -1,0 +1,21 @@
+# https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.callbacks.ModelCheckpoint.html
+
+model_checkpoint:
+  _target_: lightning.pytorch.callbacks.ModelCheckpoint
+  dirpath: ${paths.output_dir}/checkpoints
+  filename: "epoch{epoch:03d}-fid{val/fid_B:.2f}-kid{val/kid_B:.2f}-gc{val/gc_B:.4f}-nmi{val/nmi_B:.4f}-sharp{val/sharpness_B:.2f}"
+  monitor: "val/fid_B" # modified to look for best fid
+  save_top_k: 10
+  mode: "min" # max, min
+  save_last: True
+  auto_insert_metric_name: False #True
+  # save_top_k: -1
+  # every_n_epochs: 1
+
+  # basic setting
+  verbose: False # verbosity mode
+  save_weights_only: False # if True, then only the model’s weights will be saved
+  every_n_train_steps: null # number of training steps between checkpoints
+  train_time_interval: null # checkpoints are monitored at the specified time interval
+  every_n_epochs: null # number of epochs between checkpoints
+  save_on_train_epoch_end: null # whether to run checkpointing at the end of the training epoch or the end of validation

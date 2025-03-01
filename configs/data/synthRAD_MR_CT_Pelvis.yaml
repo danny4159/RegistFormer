@@ -1,0 +1,42 @@
+##### Dataset Processing Code Implementation #####
+# Save data in H5 format
+# Store patient-specific data as datasets within each group in the H5 file (e.g., Groups: MR, CT, synCT)
+# Each dataset should be in the shape [H, W, D] and normalized between -1 and 1
+# And all the data be interpolated into same height, width
+# Detailed modifications can be made through transform.py
+
+## Core setting (Important)
+_target_: src.data.SynthRAD_MR_CT_Pelvis_datamodule.SynthRAD_MR_CT_Pelvis_DataModule
+name: SynthRAD_MR_CT_Pelvis
+type: nifti
+data_dir: ${paths.root_dir}/data/SynthRAD_MR_CT_Pelvis
+data_group_1: "MR"
+data_group_2: "CT"
+data_group_3: null # If exist put it, or null # Regist:syn_CT
+is_3d: False # True: 3D processing, False: 2D processing
+batch_size: 4 #5 #10 #4 #30 #16 #12 #2 #1
+num_workers: 6 # 3
+pin_memory: False
+use_split_inference: False # Inference for valid and test is divided into half from the original image (for memory issue)
+eval_on_align: False
+
+## Dataset File Name
+
+# Registration_MR_CT_synCT.h5
+train_file: 'demo.h5'
+val_file: 'demo.h5'
+test_file: 'demo.h5' 
+
+## Preprocessing
+reverse: False # New
+flip_prob: 0 #.5 #0.5
+rot_prob: 0 #.5 #0.5
+padding_size: null # Padding to hegith, width   [256, 256] -> [target_height, target_width] or null
+crop_size: [96,96] # Random crop to hegith, width  [128, 128] -> [target_height, target_width] or null
+
+## Intenional Misalignment
+# misalign_x: 0
+# misalign_y: 0
+# degree: 0
+# motion_prob: 0
+# deform_prob: 0

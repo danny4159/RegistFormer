@@ -1,0 +1,59 @@
+_target_: src.models.munit_module.MunitModule
+
+name: MUNIT
+
+optimizer:
+  _target_: torch.optim.Adam
+  _partial_: true
+  lr: 0.0001
+  betas: [0.5, 0.999]
+  weight_decay: 0.0001
+
+
+netG_A:
+  _target_: src.models.components.networks_define.define_G
+  netG_type: 'adainGen'
+  input_nc: 1
+  output_nc: 1
+  ngf: 64
+  norm: 'instance'
+  init_type: 'normal'
+  opt: 
+    nz: 0
+
+netG_B:
+  _target_: src.models.components.networks_define.define_G
+  netG_type: 'adainGen'
+  input_nc: 1
+  output_nc: 1
+  ngf: 64
+  norm: 'instance'
+  init_type: 'normal'
+  opt: 
+    nz: 0
+
+netD_A:
+  _target_: src.models.components.networks_define.define_D
+  input_nc: 1
+  ndf: 64
+  norm: 'instance'
+  n_layers_D: 3
+  init_type: 'normal'
+  
+netD_B:
+  _target_: src.models.components.networks_define.define_D
+  input_nc: 1
+  ndf: 64
+  norm: 'instance'
+  n_layers_D: 3
+  init_type: 'normal'
+  
+params: # Other params
+  pool_size: 0
+  lambda_image: 1
+  lambda_style: 1
+  lambda_content: 1
+  lambda_cycle: 1
+  lambda_perceptual: 0
+  lambda_contextual: 1
+  eval_on_align: ${data.eval_on_align}

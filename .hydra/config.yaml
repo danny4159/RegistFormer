@@ -1,0 +1,129 @@
+paths:
+  data_dir: ${paths.root_dir}/data/
+  root_dir: ${oc.env:PROJECT_ROOT}
+  log_dir: ${paths.root_dir}/logs/
+  output_dir: ${hydra:runtime.output_dir}
+  work_dir: ${hydra:runtime.cwd}
+task_name: Model_${model.name}_Data_${data.name}_Misalign_X${data.misalign_x}_Y${data.misalign_y}_R${data.degree}_M${data.motion_prob}_D${data.deform_prob}
+tags: SynthRAD_RegistformerAlignformer_try4
+train: true
+test: true
+compile: false
+ckpt_path: null
+seed: 42
+data:
+  _target_: src.data.SynthRAD_MR_CT_Pelvis_datamodule.SynthRAD_MR_CT_Pelvis_DataModule
+  name: SynthRAD_MR_CT_Pelvis
+  data_dir: ${paths.root_dir}/data/SynthRAD_MR_CT_Pelvis
+  misalign_x: 0
+  misalign_y: 0
+  degree: 0
+  motion_prob: 0
+  deform_prob: 0
+  train_file: prepared_data_0_0_0_0_0_ver3_final.h5
+  val_file: prepared_data_0_0_0_0_0_ver3_final.h5
+  test_file: prepared_data_0_0_0_0_0_ver3_final.h5
+  reverse: false
+  flip_prob: 0
+  rot_prob: 0
+  rand_crop: true
+  batch_size: 6
+  num_workers: 3
+  pin_memory: false
+  padding: true
+model:
+  _target_: src.models.registformer_module.RegistFormerModule
+  name: RegistFormer
+  optimizer:
+    _target_: torch.optim.Adam
+    _partial_: true
+    lr: 0.0001
+    betas:
+    - 0.5
+    - 0.999
+    weight_decay: 0.0001
+  netG_A:
+    _target_: src.models.components.networks_registformer.define_G
+  netD_A:
+    _target_: src.models.components.networks_registformer.define_D
+    input_nc: 1
+    ndf: 64
+    norm: instance
+    n_layers_D: 3
+    init_type: normal
+  params:
+    lambda_ctx: 1
+    lambda_gan: 0.1
+    lambda_mind: 1
+    reverse: ${data.reverse}
+callbacks:
+  model_checkpoint:
+    _target_: lightning.pytorch.callbacks.ModelCheckpoint
+    dirpath: ${paths.output_dir}/checkpoints
+    filename: epoch_{epoch:03d}-{val/fid_B.2f}-{val/nmi_B.2f}-{val/sharpness_B.2f}
+    monitor: val/fid_B
+    verbose: false
+    save_last: true
+    save_top_k: 5
+    mode: min
+    auto_insert_metric_name: true
+    save_weights_only: false
+    every_n_train_steps: null
+    train_time_interval: null
+    every_n_epochs: null
+    save_on_train_epoch_end: null
+  model_summary:
+    _target_: lightning.pytorch.callbacks.RichModelSummary
+    max_depth: 1
+  rich_progress_bar:
+    _target_: lightning.pytorch.callbacks.RichProgressBar
+  ImageLoggingCallback:
+    _target_: src.callbacks.image_callback.ImageLoggingCallback
+    val_batch_idx:
+    - 20
+    - 30
+    - 35
+    - 40
+    - 44
+    - 65
+    tst_batch_idx:
+    - 15
+    - 20
+    - 30
+    - 40
+    - 48
+    - 70
+    center_crop: 192
+    every_epoch: 1
+    log_test: true
+  ImageSavingCallback:
+    _target_: src.callbacks.image_callback.ImageSavingCallback
+    center_crop: 256
+    subject_number_length: 5
+  WeightSavingCallback:
+    _target_: src.callbacks.image_callback.WeightSavingCallback
+logger:
+  tensorboard:
+    _target_: lightning.pytorch.loggers.tensorboard.TensorBoardLogger
+    save_dir: ${paths.output_dir}/tensorboard/
+    name: null
+    log_graph: false
+    default_hp_metric: false
+    prefix: ''
+trainer:
+  _target_: lightning.pytorch.trainer.Trainer
+  default_root_dir: ${paths.output_dir}
+  min_epochs: 1
+  max_epochs: 1
+  accelerator: auto
+  devices:
+  - 4
+  - 5
+  strategy: auto
+  benchmark: true
+  check_val_every_n_epoch: 1
+  deterministic: false
+extras:
+  ignore_warnings: false
+  enforce_tags: true
+  print_config: true

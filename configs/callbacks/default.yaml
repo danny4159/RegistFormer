@@ -1,0 +1,12 @@
+defaults:
+  - model_checkpoint_for_misalign.yaml # Choose model_checkpoint_for_misalign.yaml / model_checkpoint_for_align.yaml
+  - model_summary.yaml
+  - rich_progress_bar.yaml
+  - custom_image_logging.yaml # added for logging images
+  - _self_
+
+model_summary:
+  max_depth: 1
+
+custom_image_logging:
+  flag_normalize: True # For the dataset of registration Network 

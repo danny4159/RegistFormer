@@ -1,0 +1,69 @@
+_target_: src.models.registformer_module.RegistFormerModule
+
+name: RegistFormer
+
+optimizer:
+  _target_: torch.optim.Adam
+  _partial_: true
+  lr: 0.0002
+  betas: [0.9, 0.99]
+  weight_decay: 0
+
+scheduler:
+  _target_: torch.optim.lr_scheduler.MultiStepLR
+  _partial_: true
+  milestones: [250000, 300000]
+  gamma: 0.5
+
+netG_A:
+  _target_: src.models.components.networks_define.define_G
+  netG_type: registformer
+  in_ch: 1
+  ref_ch: 1
+  out_ch: 1
+  feat_dim: 14
+  num_head: 2
+  mlp_ratio: 2
+  p_size: 28
+  attn_type: 'softmax'
+  main_train: true
+  synth_train: false
+  synth_type: 'stage1'
+  synth_path: 'pretrained/synthesis/munit_synthesis_epoch98.ckpt'
+  synth_feat: 64
+  regist_train: false
+  regist_type: 'voxelmorph'
+  regist_path: 'pretrained/registration/Voxelmorph_Loss_MSE_MaskMSE1_0075.pt'
+  flow_size: null # MRCTPelvis: [384,320] 3T7T: [304,256]
+  init_type: 'normal'
+  init_gain: 0.02
+
+netD_A:
+  _target_: src.models.components.networks_define.define_D
+  input_nc: 1
+  ndf: 64
+  init_type: 'normal'
+
+netF_A: # For PatchNCELoss
+  _target_: src.models.components.networks_define.define_F
+  netF_type: 'mlp_sample'
+  use_mlp: True #True
+  init_type: 'xavier' #'xavier'
+  init_gain: 0.02
+  nc: 256
+  input_nc: 512
+
+params: # Other params
+  lambda_ctx: 1
+  lambda_gan: 0.1 #0 # 0.1 
+  lambda_mind: 0
+  lambda_nce: 0.1
+  lambda_l1: 0
+  reverse: ${data.reverse} # A->B if False, B->A if True
+  use_split_inference: ${data.use_split_inference}
+  flip_equivariance: False
+  batch_size: ${data.batch_size}
+  nce_on_vgg: True
+  eval_on_align: ${data.eval_on_align}
+
+  flag_occlusionCTX: False
