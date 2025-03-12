@@ -147,12 +147,12 @@ class RegistFormer(nn.Module):
         ## Getting Deformation field (phi)
         if self.regist_type == "voxelmorph":
             if self.synth_type == "stage1":
-                input_mr, moving_padding = self.pad_tensor_to_multiple(input_mr, height_multiple=height_multiple, width_multiple=width_multiple)
+                synth_ct, moving_padding = self.pad_tensor_to_multiple(synth_ct, height_multiple=height_multiple, width_multiple=width_multiple)
                 ref_ct, fixed_padding = self.pad_tensor_to_multiple(ref_ct, height_multiple=height_multiple, width_multiple=width_multiple)
                 
-                _, deform_field = self.regist_net(input_mr, ref_ct, registration=True) 
+                _, deform_field = self.regist_net(synth_ct, ref_ct, registration=True) 
 
-                input_mr = self.crop_tensor_to_original(input_mr, fixed_padding)
+                synth_ct = self.crop_tensor_to_original(synth_ct, fixed_padding)
                 ref_ct = self.crop_tensor_to_original(ref_ct, fixed_padding)
                 deform_field = self.crop_tensor_to_original(deform_field, fixed_padding)
     
