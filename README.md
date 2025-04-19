@@ -1,6 +1,6 @@
 # RegistFormer (Breaking dilemma of cross-modality image registration)
 
-# [Paper](https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=10944116)
+## [Paper](https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=10944116)
 Title: Improving Pelvic MR-CT Image Alignment with Self-supervised Reference-Augmented Pseudo-CT Generation Framework
 
 Daniel Kim, Mohammed A. Al-masni, Jaehun Lee, Dong-Hyun Kim, Kanghyun Ryu
