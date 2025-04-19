@@ -2,9 +2,7 @@
 
 # [Paper](https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=10944116)
 Title: Improving Pelvic MR-CT Image Alignment with Self-supervised Reference-Augmented Pseudo-CT Generation Framework
- 
 Daniel Kim, Mohammed A. Al-masni, Jaehun Lee, Dong-Hyun Kim, Kanghyun Ryu
- 
 2024 WACV (Winter Conference on Applications of Computer Vision)
 
 
@@ -54,7 +52,7 @@ mim install mmcv
 ## 3. Dataset
 ### Dataset 
 Grand challenge ['SynthRAD 2023'](https://synthrad2023.grand-challenge.org/) Pelvis MR, CT.
-The preprocessed dataset required for training, validation, and testing is shared at ['this link'](https://drive.google.com/drive/folders/1Y9tr9mZ58avHRubUlUpDbpTyVpwTu9ck?usp=sharing) for convenience.
+All of the preprocessed dataset is shared at ['this link'](https://drive.google.com/drive/folders/1Y9tr9mZ58avHRubUlUpDbpTyVpwTu9ck?usp=sharing).
 Put it in the following path: `/data`.
 Details of the preprocessing steps are described in the paper.
 
