@@ -23,6 +23,8 @@ Daniel Kim, Mohammed A. Al-masni, Jaehun Lee, Dong-Hyun Kim, Kanghyun Ryu
 
 - `Pytorch-lighting` + `Hydra` + `Tensorboard` was used for experiment-tracking
 
+- Once you get used to it, comparative experiments become very convenient.
+
 
 ## 2. Library installation
 
