@@ -7,9 +7,11 @@ Daniel Kim, Mohammed A. Al-masni, Jaehun Lee, Dong-Hyun Kim, Kanghyun Ryu
  
 2024 WACV (Winter Conference on Applications of Computer Vision)
 
+
+## Comparison with existing Registration method 
 ![Comparison with existing Registration method](img/MR-CT_Registraion_Comparison(WACV).png)
 
-
+## Overall architecture of Proposed method 
 ![Overall architecture of Proposed method](img/figure_Overview_Proposed_11_small.png)
 
 
