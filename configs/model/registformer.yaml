@@ -34,7 +34,7 @@ netG_A:
   regist_train: false
   regist_type: 'voxelmorph'
   regist_path: 'pretrained/registration/Voxelmorph_Loss_MSE_MaskMSE1_0075.pt'
-  flow_size: null # MRCTPelvis: [384,320] 3T7T: [304,256]
+  regist_size: null # MRCTPelvis: [384,320] 3T7T: [304,256]
   init_type: 'normal'
   init_gain: 0.02
 

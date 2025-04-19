@@ -54,6 +54,6 @@ params: # Other params
   lambda_style: 1
   lambda_content: 1
   lambda_cycle: 1
-  lambda_perceptual: 0
-  lambda_contextual: 1
+  lambda_perceptual: 1
+  lambda_contextual: 0
   eval_on_align: ${data.eval_on_align}

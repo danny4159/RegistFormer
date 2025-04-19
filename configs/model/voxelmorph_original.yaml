@@ -18,7 +18,7 @@ scheduler:
 netR_A:
   _target_: src.models.components.networks_define.define_R
   netR_type: voxelmorph_original
-  inshape: [384, 320, 128]
+  inshape: [384, 320]
   nb_unet_features: [[16, 32, 32, 32], [32, 32, 32, 32, 32, 16, 16]]
   nb_unet_levels: null
   unet_feat_mult: 1

@@ -23,9 +23,9 @@ eval_on_align: False
 ## Dataset File Name
 
 # Registration_MR_CT_synCT.h5
-train_file: 'demo.h5'
-val_file: 'demo.h5'
-test_file: 'demo.h5' 
+train_file: 'Ver3_AllPatientSameSize_final_2.h5'
+val_file: 'Ver3_OnlyOnePatient.h5'
+test_file: 'Ver3_AllPatientSameSize_final_2.h5' 
 
 ## Preprocessing
 reverse: False # New
