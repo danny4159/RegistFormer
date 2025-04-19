@@ -1,14 +1,15 @@
 # RegistFormer (Breaking dilemma of cross-modality image registration)
 
 # [Paper](https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=10944116)
-Improving Pelvic MR-CT Image Alignment with Self-supervised Reference-Augmented Pseudo-CT Generation Framework, WACV 2024
+Title: Improving Pelvic MR-CT Image Alignment with Self-supervised Reference-Augmented Pseudo-CT Generation Framework, WACV 2024
+ 
 Daniel Kim, Mohammed A. Al-masni, Jaehun Lee, Dong-Hyun Kim, Kanghyun Ryu
 2024 WACV (Winter Conference on Applications of Computer Vision)
 
 ![Comparison with existing Registration method](img/MR-CT_Registraion_Comparison(WACV).png)
 
 
-![Overall architecture of Proposed method](img/MR-CT_Registraion_Comparison(WACV).png)
+![Overall architecture of Proposed method](img/figure_Overview_Proposed_11_small.png)
 
 
  
