@@ -163,3 +163,4 @@ Mambaforge-Linux-x86_64.sh
 # Save model
 *.ckpt
 *.pt
+*.h5*.ckpt
