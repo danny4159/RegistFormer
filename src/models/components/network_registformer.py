@@ -9,6 +9,7 @@ from torch.autograd import Variable
 import math
 import pdb
 import os
+import copy
 
 
 class RegistFormer(nn.Module):
@@ -30,7 +31,7 @@ class RegistFormer(nn.Module):
             self.regist_train = kwargs['regist_train']
             self.regist_type = kwargs['regist_type']
             self.regist_path = kwargs['regist_path']
-            self.flow_size = kwargs.get('flow_size', None)
+            self.regist_size = kwargs.get('regist_size', None)
 
         except KeyError as e:
             raise ValueError(f"Missing required parameter: {str(e)}")
@@ -44,8 +45,25 @@ class RegistFormer(nn.Module):
         ## Define Registration Network(R)
         if self.regist_type == "voxelmorph" or self.regist_type == "zero":
             from src.models.components.voxelmorph import VxmDense
-            self.regist_net = VxmDense.load(path=self.regist_path, device='cpu')
+
+            self.regist_net = VxmDense(inshape=self.regist_size,
+                                           nb_unet_features=[[16, 32, 32, 32], [32, 32, 32, 32, 32, 16, 16]],
+                                           nb_unet_levels=None,
+                                           unet_feat_mult=1,
+                                           nb_unet_conv_per_level=1,
+                                           int_steps=7,
+                                           int_downsize=2,
+                                           bidir=False,
+                                           use_probs=False,
+                                           src_feats=self.in_ch,
+                                           trg_feats=self.ref_ch,
+                                           unet_half_res=False,)
+            checkpoint = torch.load(self.regist_path, map_location=lambda storage, loc: storage)
+            model_state_dict = checkpoint["state_dict"]
+            adjusted_state_dict = {k.replace("netR_A.", ""): v for k, v in model_state_dict.items()}
+            self.regist_net.load_state_dict(adjusted_state_dict, strict=False)
             self.regist_net.eval()
+            self.regist_net_backup_weights = copy.deepcopy(self.regist_net.state_dict()) 
         else:
             raise ValueError(f"Unrecognized flow type: {self.regist_type}.")
 
@@ -64,6 +82,7 @@ class RegistFormer(nn.Module):
             adjusted_state_dict = {k.replace("netG_A.", ""): v for k, v in model_state_dict.items()}
             self.synth_net_mr.load_state_dict(adjusted_state_dict, strict=False)
             self.synth_net_mr.eval()
+            self.synth_net_mr_backup_weights = copy.deepcopy(self.synth_net_mr.state_dict()) # Weights are backed up to prevent reinitialization in network_define.
 
             self.synth_net_ct = AdaINGen(input_nc=1, output_nc=1, ngf=64)
             checkpoint = torch.load(self.synth_path, map_location=lambda storage, loc: storage)
@@ -71,6 +90,7 @@ class RegistFormer(nn.Module):
             adjusted_state_dict = {k.replace("netG_B.", ""): v for k, v in model_state_dict.items()}
             self.synth_net_ct.load_state_dict(adjusted_state_dict, strict=False)
             self.synth_net_ct.eval()
+            self.synth_net_ct_backup_weights = copy.deepcopy(self.synth_net_ct.state_dict())
 
         ## Define feature extractor.
         self.net1 = UNet(self.in_ch * 2, self.feat_dim, self.feat_dim)
@@ -133,6 +153,8 @@ class RegistFormer(nn.Module):
 
         ## Getting Synth-CT (Stage1)
         if self.synth_type == "stage1":
+            self.synth_net_mr.load_state_dict(self.synth_net_mr_backup_weights)
+            self.synth_net_ct.load_state_dict(self.synth_net_ct_backup_weights)
             c_mr, s_mr = self.synth_net_mr.encode(input_mr)
             c_ct, s_ct = self.synth_net_ct.encode(ref_ct)
             synth_ct = self.synth_net_ct.decode(c_mr, s_ct)
@@ -141,12 +163,13 @@ class RegistFormer(nn.Module):
                 "Invalid dam_type provided. Expected 'dam' or 'synthesis_meta'."
             )
 
-        height_multiple = self.flow_size[0] if self.flow_size else 768
-        width_multiple = self.flow_size[1] if self.flow_size else 576
+        height_multiple = self.regist_size[0] if self.regist_size else 768
+        width_multiple = self.regist_size[1] if self.regist_size else 576
 
         ## Getting Deformation field (phi)
         if self.regist_type == "voxelmorph":
             if self.synth_type == "stage1":
+                self.regist_net.load_state_dict(self.regist_net_backup_weights)
                 synth_ct, moving_padding = self.pad_tensor_to_multiple(synth_ct, height_multiple=height_multiple, width_multiple=width_multiple)
                 ref_ct, fixed_padding = self.pad_tensor_to_multiple(ref_ct, height_multiple=height_multiple, width_multiple=width_multiple)
                 
