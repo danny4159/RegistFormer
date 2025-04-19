@@ -113,3 +113,16 @@ python src/train.py model='registformer.yaml' trainer.devices=[0] tags='Registfo
 # model.netG_A.regist_path: Path to the pretrained weight file for the registration network.
 # model.netG_A.regist_size: Height and width of the preprocessed dataset.
 ```
+
+## 7. Citation
+If you use this code for your research, please cite our [paper](https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=10944116).
+```bash
+@inproceedings{kim2025improving,
+  title={Improving Pelvic MR-CT Image Alignment with Self-Supervised Reference-Augmented Pseudo-CT Generation Framework},
+  author={Kim, Daniel and Al-masni, Mohammed A and Lee, Jaehun and Kim, Dong-Hyun and Ryu, Kanghyun},
+  booktitle={2025 IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)},
+  pages={347--356},
+  year={2025},
+  organization={IEEE}
+}
+```
