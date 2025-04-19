@@ -6,7 +6,7 @@ Title: Improving Pelvic MR-CT Image Alignment with Self-supervised Reference-Aug
 
 Daniel Kim, Mohammed A. Al-masni, Jaehun Lee, Dong-Hyun Kim, Kanghyun Ryu
 
-2024 WACV (Winter Conference on Applications of Computer Vision)
+2025 WACV (Winter Conference on Applications of Computer Vision)
 
 
 ## Comparison with existing Registration method 
