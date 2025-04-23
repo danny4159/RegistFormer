@@ -87,7 +87,7 @@ python src/train.py model='munit.yaml' tags='MUNIT_Test' trainer.devices=[0] tra
 
 ### Stage 2
 ```bash
-python src/train.py model='registformer.yaml' trainer.devices=[0] tags='Registformer_MrCtPelvis_MUNIT_Test' data.use_split_inference=true train=False ckpt_path='<YOUR_PROJECT_ROOT>/pretrained/proposed/proposed_weight.ckpt'
+python src/train.py model='registformer.yaml' trainer.devices=[0] tags='Registformer_MrCtPelvis_MUNIT_Test' data.use_split_inference=true model.netG_A.synth_path=pretrained/synthesis/munit_synthesis_epoch98.ckpt model.netG_A.regist_path='pretrained/registration/Voxelmorph_2D_CT_SynCT.ckpt' model.netG_A.regist_size=[384,320] train=False ckpt_path='<YOUR_PROJECT_ROOT>/pretrained/proposed/proposed_weight_2.ckpt'
 # data.use_split_inference: Whether to split the image into two parts for inference. Set it to 'false' if the memory is sufficient.
 ```  
 
