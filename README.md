@@ -7,7 +7,7 @@
 
 Daniel Kim, Mohammed A. Al-masni, Jaehun Lee, Dong-Hyun Kim, Kanghyun Ryu 
 
-2025 IEEE WACV (Winter Conference on Applications of Computer Vision) 
+IEEE/CVF WACV (Winter Conference on Applications of Computer Vision), 2025
 
 
 
