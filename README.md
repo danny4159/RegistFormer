@@ -1,5 +1,5 @@
 # RegistFormer
-# (Breaking dilemma of cross-modality image registration)
+## (Breaking dilemma of cross-modality image registration)
 
 ## [Paper](https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=10944116)
 
