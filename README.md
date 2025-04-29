@@ -3,7 +3,10 @@
 
 ## [Paper](https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=10944116)
 
-**Improving Pelvic MR-CT Image Alignment with Self-supervised Reference-Augmented Pseudo-CT Generation Framework**
+---
+# Improving Pelvic MR-CT Image Alignment with Self-supervised Reference-Augmented Pseudo-CT Generation Framework
+_(Title)_
+---
 
 Daniel Kim, Mohammed A. Al-masni, Jaehun Lee, Dong-Hyun Kim, Kanghyun Ryu 
 
